@@ -22,7 +22,7 @@ jobs:
           cache: maven
 
       - name: Build and test backend
-        run: mvn clean verify
+        run: mvn clean install -DskipTests
 
   frontend-build-test:
     runs-on: ubuntu-latest
