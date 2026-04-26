@@ -34,6 +34,7 @@ public class SecurityConfig {
       .authorizeHttpRequests(auth -> auth
         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
         .requestMatchers("/api/tasks/**").authenticated()
+        .requestMatchers("/actuator/health", "/actuator/info").permitAll()
         .anyRequest().permitAll()
       )
       .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

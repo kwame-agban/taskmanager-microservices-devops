@@ -24,7 +24,8 @@ public class SecurityConfig {
       .csrf(csrf -> csrf.disable())
       .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .authorizeHttpRequests(auth -> auth
-        .requestMatchers("/api/auth/login", "/h2-console/**").permitAll()
+        //.requestMatchers("/api/auth/login", "/h2-console/**").permitAll()
+        .requestMatchers("/actuator/health", "/actuator/info").permitAll()
         .anyRequest().authenticated()
       )
       .headers(headers -> headers.frameOptions(frame -> frame.disable()));
