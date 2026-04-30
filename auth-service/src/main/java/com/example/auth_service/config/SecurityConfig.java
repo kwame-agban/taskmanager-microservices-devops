@@ -25,7 +25,8 @@ public class SecurityConfig {
       .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .authorizeHttpRequests(auth -> auth
         //.requestMatchers("/api/auth/login", "/h2-console/**").permitAll()
-        .requestMatchers("/actuator/health", "/actuator/info").permitAll()
+        .requestMatchers("/auth/**",
+          "/api/auth/**","/actuator/health", "/actuator/info").permitAll()
         .anyRequest().authenticated()
       )
       .headers(headers -> headers.frameOptions(frame -> frame.disable()));

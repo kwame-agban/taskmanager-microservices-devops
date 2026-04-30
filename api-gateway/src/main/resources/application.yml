@@ -13,14 +13,14 @@ spring:
           predicates:
             - Path=/api/auth/**
           filters:
-            - StripPrefix=0
+            - StripPrefix=2
 
         - id: task-service
           uri: ${TASK_SERVICE_URL:http://task-service:8082}
           predicates:
             - Path=/api/tasks/**
           filters:
-            - StripPrefix=0
+            - StripPrefix=2
 
       globalcors:
         cors-configurations:
