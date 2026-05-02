@@ -26,6 +26,22 @@ jobs:
 
       - name: Build backend
         run: mvn -B clean install -DskipTests
+
+  validate-k8s:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+
+      - name: Validate Kubernetes manifests
+        run: |
+          kubectl apply --dry-run=client -f k8s/
 """,
 
     ".env.example": """POSTGRES_USER=postgres
@@ -44,3 +60,4 @@ for file_path, content in files.items():
     else:
         path.write_text(content, encoding="utf-8")
         print(f"CREATED: {file_path}")
+

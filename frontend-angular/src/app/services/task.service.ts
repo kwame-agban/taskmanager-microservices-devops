@@ -19,7 +19,6 @@ export interface TaskRequest {
 @Injectable({ providedIn: 'root' })
 export class TaskService {
   private http = inject(HttpClient);
-  //private readonly apiUrl = 'http://localhost:8082/api/tasks';
   private readonly apiUrl = `${environment.apiUrl}/api/tasks`
 
   private getAuthHeaders(): HttpHeaders {

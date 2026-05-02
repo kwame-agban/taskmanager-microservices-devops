@@ -22,7 +22,6 @@ export class AuthService {
   private readonly router = inject(Router);
 
   private readonly tokenKey = 'taskmanager_token';
-  //private readonly apiUrl = 'http://localhost:8081/api/auth';
   private readonly apiUrl = `${environment.apiUrl}/api/auth`;
 
   login(payload: LoginRequest): Observable<LoginResponse> {
