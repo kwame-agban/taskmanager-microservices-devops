@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Task {
   id: number;
@@ -18,7 +19,8 @@ export interface TaskRequest {
 @Injectable({ providedIn: 'root' })
 export class TaskService {
   private http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8082/api/tasks';
+  //private readonly apiUrl = 'http://localhost:8082/api/tasks';
+  private readonly apiUrl = `${environment.apiUrl}/api/tasks`
 
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token') || '';
