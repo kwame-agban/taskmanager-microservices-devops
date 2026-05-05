@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
         - name: task-service
-          image: ghcr.io/kwame-agban/taskmanager-microservices-task-service:latest
+          image: task-service:latest
+          imagePullPolicy: Never
           ports:
             - containerPort: 8082
           env:

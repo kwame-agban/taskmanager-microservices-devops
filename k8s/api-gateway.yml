@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: ghcr.io/kwame-agban/taskmanager-microservices-api-gateway:latest
+          image: api-gateway:latest
+          imagePullPolicy: Never
           ports:
             - containerPort: 8080
           env:
