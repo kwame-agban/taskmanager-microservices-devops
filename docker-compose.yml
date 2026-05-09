@@ -26,8 +26,8 @@ services:
 
   auth-service:
     build:
-      context: .
-      dockerfile: auth-service/Dockerfile
+      context: ./auth-service
+      dockerfile: Dockerfile
     container_name: auth-service
     env_file:
       - .env
@@ -41,8 +41,8 @@ services:
 
   task-service:
     build:
-      context: .
-      dockerfile: task-service/Dockerfile
+      context: ./task-service
+      dockerfile: Dockerfile
     container_name: task-service
     env_file:
       - .env
@@ -56,14 +56,13 @@ services:
 
   api-gateway:
     build:
-      context: .
-      dockerfile: api-gateway/Dockerfile
+      context: ./api-gateway
+      dockerfile: Dockerfile
     container_name: api-gateway
     environment:
       SERVER_PORT: 8080
       AUTH_SERVICE_URL: http://auth-service:8081
       TASK_SERVICE_URL: http://task-service:8082
-      FRONTEND_URL: http://frontend-angular:80
     ports:
       - "8080:8080"
     depends_on:

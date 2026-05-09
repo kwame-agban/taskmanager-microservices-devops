@@ -19,10 +19,11 @@ export interface TaskRequest {
 @Injectable({ providedIn: 'root' })
 export class TaskService {
   private http = inject(HttpClient);
-  private readonly apiUrl = `${environment.apiUrl}/api/tasks`
+  private readonly apiUrl = `${environment.apiUrl}/api/tasks`;
 
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token') || '';
+    const token = localStorage.getItem('taskmanager_token') || '';
+
     return new HttpHeaders({
       Authorization: `Bearer ${token}`
     });

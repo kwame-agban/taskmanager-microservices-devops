@@ -7,30 +7,32 @@ spring:
 
   cloud:
     gateway:
-      routes:
-        - id: auth-service
-          uri: ${AUTH_SERVICE_URL:http://auth-service:8081}
-          predicates:
-            - Path=/api/auth/**
+      server:
+        webflux:
+          routes:
+            - id: auth-service
+              uri: ${AUTH_SERVICE_URL:http://auth-service:8081}
+              predicates:
+                - Path=/api/auth/**
 
-        - id: task-service
-          uri: ${TASK_SERVICE_URL:http://task-service:8082}
-          predicates:
-            - Path=/api/tasks/**
+            - id: task-service
+              uri: ${TASK_SERVICE_URL:http://task-service:8082}
+              predicates:
+                - Path=/api/tasks/**
 
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins:
-              - "http://localhost:4200"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - OPTIONS
-            allowedHeaders: "*"
-            allowCredentials: true
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowedOrigins:
+                  - "http://localhost:4200"
+                allowedMethods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - OPTIONS
+                allowedHeaders: "*"
+                allowCredentials: true
 
 management:
   endpoints:
