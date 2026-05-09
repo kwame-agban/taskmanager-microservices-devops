@@ -9,8 +9,10 @@ api-gateway - PostgreSQL - Angular frontend
 
 ### Build images
 
-mvn clean package -DskipTests docker build -t api-gateway . docker build
--t auth-service . docker build -t task-service .
+mvn clean package -DskipTests
+docker build -t api-gateway . // ou bien, docker build -t api-gateway ./api-gateway
+docker build -t auth-service . // ou bien, docker build -t auth-service ./auth-service
+docker build -t task-service . // ou bien, docker build -t task-service ./task-service
 
 ### Deploy
 
@@ -18,7 +20,8 @@ kubectl apply -f k8s/ -n taskmanager
 
 ### Check
 
-kubectl get pods -n taskmanager kubectl get svc -n taskmanager
+kubectl get pods -n taskmanager
+kubectl get svc -n taskmanager
 
 ### Port forward
 
@@ -30,6 +33,7 @@ curl http://localhost:8080/actuator/health
 
 ### Login
 
-curl -X POST http://localhost:8080/api/auth/login\
--H "Content-Type: application/json"\
--d '{"username":"user.nom","password":"password"}'
+curl -X POST "http://localhost:8080/api/auth/login" \
+-H "Content-Type: application/json" \
+-d "{\"username\":\"user.nom\",\"password\":\"password\"}"
+
