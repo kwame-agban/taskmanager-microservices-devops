@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -18,38 +18,22 @@ export interface TaskRequest {
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
   private readonly apiUrl = `${environment.apiUrl}/api/tasks`;
 
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('taskmanager_token') || '';
-
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-  }
-
   getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(this.apiUrl, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.get<Task[]>(this.apiUrl);
   }
 
   createTask(payload: TaskRequest): Observable<Task> {
-    return this.http.post<Task>(this.apiUrl, payload, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.post<Task>(this.apiUrl, payload);
   }
 
   completeTask(id: number): Observable<Task> {
-    return this.http.put<Task>(`${this.apiUrl}/${id}/complete`, {}, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.put<Task>(`${this.apiUrl}/${id}/complete`, {});
   }
 
   deleteTask(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

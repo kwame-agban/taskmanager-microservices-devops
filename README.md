@@ -41,12 +41,15 @@ mvn clean package -DskipTests
 2. Revenir à la racine du projet
 cd ..
 
-3. Construire les images Docker
+3. Démarrer ou verifier que Docker est lancé
+
+4. Construire les images Docker
 docker compose build --no-cache
 
-4. Démarrer les services backend
+5. Démarrer les services backend
 docker compose up -d
-Vérification des conteneurs
+
+6. Vérification des conteneurs
 docker ps
 
 Ports utilisés :
