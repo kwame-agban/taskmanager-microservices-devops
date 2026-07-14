@@ -33,6 +33,7 @@ services:
       - .env
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://auth-db:5432/auth_db
+      SECURITY_TOKEN_SECRET: 7fYcIdkDM+IVA5nC4/yCzESPbF2gY7UR+sgU4ig0s4w=
       SERVER_PORT: 8081
     ports:
       - "8081:8081"
