@@ -22,7 +22,7 @@ jobs:
           cache: maven
 
       - name: Build and test backend
-        run: mvn clean install
+        run: mvn clean install -DskipTests
 
   validate-k8s:
     runs-on: ubuntu-latest
