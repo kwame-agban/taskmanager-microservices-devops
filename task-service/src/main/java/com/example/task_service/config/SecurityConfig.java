@@ -9,11 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.List;
 
 @EnableWebSecurity
 @Configuration
@@ -21,41 +16,51 @@ public class SecurityConfig {
 
   private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
-  public SecurityConfig(TokenAuthenticationFilter tokenAuthenticationFilter) {
+  public SecurityConfig(
+    TokenAuthenticationFilter tokenAuthenticationFilter
+  ) {
     this.tokenAuthenticationFilter = tokenAuthenticationFilter;
   }
 
   @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+  public SecurityFilterChain securityFilterChain(
+    HttpSecurity http
+  ) throws Exception {
+
     http
+      // API REST stateless utilisant un token JWT
       .csrf(csrf -> csrf.disable())
-      .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
+      // Aucune session HTTP n'est créée
       .sessionManagement(session ->
-        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        session.sessionCreationPolicy(
+          SessionCreationPolicy.STATELESS
+        )
       )
+
       .authorizeHttpRequests(auth -> auth
+        // Requêtes CORS de pré-vérification
         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-        .requestMatchers("/actuator/health", "/actuator/info").permitAll()
-        .requestMatchers("/api/tasks", "/api/tasks/**").authenticated()
-        .anyRequest().permitAll()
+
+        // Endpoints de supervision publics
+        .requestMatchers(
+          "/actuator/health",
+          "/actuator/info"
+        ).permitAll()
+
+        // Toutes les opérations sur les tâches nécessitent un JWT valide
+        .requestMatchers("/api/tasks/**").authenticated()
+
+        // Toute autre route est refusée par défaut
+        .anyRequest().denyAll()
       )
-      .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+      // Vérification du JWT avant le filtre standard Spring Security
+      .addFilterBefore(
+        tokenAuthenticationFilter,
+        UsernamePasswordAuthenticationFilter.class
+      );
 
     return http.build();
-  }
-
-  @Bean
-  public CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration configuration = new CorsConfiguration();
-
-    configuration.setAllowedOrigins(List.of("http://localhost:4200"));
-    configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-    configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-    configuration.setAllowCredentials(true);
-
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
-
-    return source;
   }
 }

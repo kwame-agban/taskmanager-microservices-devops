@@ -49,6 +49,7 @@ services:
       - .env
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://task-db:5432/task_db
+      SECURITY_TOKEN_SECRET: 7fYcIdkDM+IVA5nC4/yCzESPbF2gY7UR+sgU4ig0s4w=
       SERVER_PORT: 8082
     ports:
       - "8082:8082"
